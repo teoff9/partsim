@@ -11,11 +11,24 @@ use std::f64::consts::PI;
 //adds the calculated forces in p1.f and p2.f
 pub fn universal_law_gravity (p1: &Point, p2: &Point) -> Vector{
     let f = -G*p1.mass*p2.mass;
+
+    let fx = f*{
+        if p1.pos.x!= 0.0 || p2.pos.x!= 0.0 {
+            (p1.pos.x-p2.pos.x)/((p1.pos.x-p2.pos.x).abs()).powf(3.0)
+        } else {0.0}
+        };
+    let fy = f*{
+        if p1.pos.y!= 0.0 || p2.pos.y!= 0.0 {
+            (p1.pos.y-p2.pos.y)/((p1.pos.y-p2.pos.y).abs()).powf(3.0)
+        } else {0.0}
+        };
+    let fz = f*{
+        if p1.pos.z!= 0.0 || p2.pos.z!= 0.0 {
+            (p1.pos.z-p2.pos.z)/((p1.pos.z-p2.pos.z).abs()).powf(3.0)
+        } else {0.0}
+        };
     
-    Vector::new((
-                f*(p1.pos.x-p2.pos.x)/((p1.pos.x-p2.pos.x).abs()).powf(3.0), 
-                f*(p1.pos.y-p2.pos.y)/((p1.pos.y-p2.pos.y).abs()).powf(3.0), 
-                f*(p1.pos.z-p2.pos.z)/((p1.pos.z-p2.pos.z).abs()).powf(3.0)))
+    Vector::new((fx, fy, fz))            
 }
 
 //Coulomb Law for two points

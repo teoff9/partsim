@@ -4,6 +4,7 @@
 
 
 //struct for Cartesian Vector
+#[derive(Debug)]
 pub struct Vector {
     pub x: f64,
     pub y: f64,
