@@ -23,11 +23,8 @@ impl Engine {
 
     //add a material point (Point) to self.bodies
     pub fn add_point(&mut self, pos: (f64, f64, f64), v: (f64, f64, f64), mass: f64, charge: f64) {
-            if mass > 0.0 {
-                self.bodies.push(Point::new(pos, v, mass, charge));
-            } else {
-                panic!("A material point should always have positive mass!");
-            } 
+        self.bodies.push(Point::new(pos, v, mass, charge));
+
     }
 
     //Calculates the total forces on each body: Newton Grav. Law and Coulomb Law

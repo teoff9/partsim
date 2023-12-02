@@ -15,9 +15,13 @@ pub struct Point {
 
 impl Point {
     pub fn new(pos: (f64, f64, f64), v: (f64, f64, f64), mass: f64, charge: f64) -> Self {
-        let p = Vector::new(pos);
-        let vv = Vector::new(v);
-        let f = Vector::new((0.0, 0.0, 0.0));
-        Self { pos: p, v: vv, f, mass, charge }
+        if mass < 0.0 {
+            panic!("Mass cannot be less than 0...\n");
+        } else {
+            let p = Vector::new(pos);
+            let vv = Vector::new(v);
+            let f = Vector::new((0.0, 0.0, 0.0));
+            Self { pos: p, v: vv, f, mass, charge }
+        }
     }
 }
