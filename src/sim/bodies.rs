@@ -10,7 +10,7 @@ pub struct Point {
     pub v: Vector,
     pub f: Vector,
     pub mass: f64,
-    pub charge: f64
+    pub charge: f64,
 }
 
 impl Point {
@@ -21,7 +21,13 @@ impl Point {
             let p = Vector::new(pos);
             let vv = Vector::new(v);
             let f = Vector::new((0.0, 0.0, 0.0));
-            Self { pos: p, v: vv, f, mass, charge }
+            Self {
+                pos: p,
+                v: vv,
+                f,
+                mass,
+                charge,
+            }
         }
     }
 }
