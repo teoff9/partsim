@@ -19,7 +19,23 @@ impl Vector {
         }
     }
 
-    pub fn sum(&mut self, vett: &Vector) {
+    pub fn from_subtraction(v1: &Vector, v2: &Vector) -> Self {
+        Self {
+            x: v1.x - v2.x,
+            y: v1.y - v2.y,
+            z: v1.z - v2.z,
+        }
+    }
+
+    pub fn from_addiction(v1: &Vector, v2: &Vector) -> Self {
+        Self {
+            x: v1.x + v2.x,
+            y: v1.y + v2.y,
+            z: v1.z + v2.z,
+        }
+    }
+
+    pub fn add(&mut self, vett: &Vector) {
         self.x += vett.x;
         self.y += vett.y;
         self.z += vett.z;
@@ -29,5 +45,9 @@ impl Vector {
         self.x -= vett.x;
         self.y -= vett.y;
         self.z -= vett.z;
+    }
+
+    pub fn module(&self) -> f64 {
+        (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).powf(0.5)
     }
 }

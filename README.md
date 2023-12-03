@@ -2,6 +2,5 @@
 
 ## \#TODO
 
-- fix bug: dopo un certo valore di t, certe coordinate schizzano a infinito
-- ottimizza il codice 
+- ottimizza il codice: calc_force etc etc 
 - aggiusta coulomb per NaN 

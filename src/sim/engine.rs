@@ -39,13 +39,13 @@ impl Engine {
             for j in i + 1..self.bodies.len() {
                 //calculate gravitational forces
                 let f = universal_law_gravity(&self.bodies[i], &self.bodies[j]);
-                self.bodies[i].f.sum(&f);
+                self.bodies[i].f.add(&f);
                 self.bodies[j].f.subtract(&f);
 
                 //if they both have a charge, add coulomb force
                 if self.bodies[i].charge != 0.0 && self.bodies[j].charge != 0.0 {
                     let f = coulomb_law(&self.bodies[i], &self.bodies[j]);
-                    self.bodies[i].f.sum(&f);
+                    self.bodies[i].f.add(&f);
                     self.bodies[j].f.subtract(&f);
                 }
             }
@@ -59,7 +59,7 @@ impl Engine {
                 self.bodies[i].f.y / self.bodies[i].mass * self.dt,
                 self.bodies[i].f.z / self.bodies[i].mass * self.dt,
             ));
-            self.bodies[i].v.sum(&new_v);
+            self.bodies[i].v.add(&new_v);
         }
     }
 
@@ -73,7 +73,7 @@ impl Engine {
                 self.bodies[i].v.z * self.dt
                     + 0.5 * self.dt.powf(2.0) * self.bodies[i].f.z / self.bodies[i].mass,
             ));
-            self.bodies[i].pos.sum(&s);
+            self.bodies[i].pos.add(&s);
         }
     }
 
