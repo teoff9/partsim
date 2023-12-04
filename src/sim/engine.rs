@@ -5,15 +5,14 @@
 use crate::sim::bodies::Point;
 use crate::sim::cartesian::Vector;
 use crate::sim::physics::{
-    coulomb_law, partial_coulomb, partial_law_gravity, universal_law_gravity,
+     partial_coulomb, partial_law_gravity
 };
-use std::collections::HashMap;
 
 //ENGINE
 pub struct Engine {
     bodies: Vec<Point>,
     dt: f64,
-    fcache: HashMap<[usize; 2], f64>,
+    fcache: Vec<([usize; 2], f64)>,
 }
 
 impl Engine {
@@ -23,7 +22,7 @@ impl Engine {
         Self {
             bodies: vec![],
             dt,
-            fcache: HashMap::new(),
+            fcache: vec![],
         }
     }
 
@@ -36,10 +35,10 @@ impl Engine {
     fn calc_fcache(&mut self) {
         for i in 0..self.bodies.len() {
             for j in i + 1..self.bodies.len() {
-                self.fcache.insert(
-                    [i, j],
+                self.fcache.push(
+                    ([i, j],
                     partial_law_gravity(&self.bodies[i].mass, &self.bodies[j].mass)
-                        + partial_coulomb(&self.bodies[i].charge, &self.bodies[j].charge),
+                        + partial_coulomb(&self.bodies[i].charge, &self.bodies[j].charge)),
                 );
             }
         }
