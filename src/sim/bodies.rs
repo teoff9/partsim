@@ -30,4 +30,11 @@ impl Point {
             }
         }
     }
+
+    pub fn distance_from(&self, p: &Point) -> f64 {
+        ((self.pos.x - p.pos.x).powf(2.0)
+            + (self.pos.y - p.pos.y).powf(2.0)
+            + (self.pos.z - p.pos.z).powf(2.0))
+        .powf(0.5)
+    }
 }
