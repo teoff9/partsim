@@ -4,9 +4,7 @@
 //imports
 use crate::sim::bodies::Point;
 use crate::sim::cartesian::Vector;
-use crate::sim::physics::{
-     partial_coulomb, partial_law_gravity
-};
+use crate::sim::physics::{partial_coulomb, partial_law_gravity};
 
 //ENGINE
 pub struct Engine {
@@ -35,18 +33,17 @@ impl Engine {
     fn calc_fcache(&mut self) {
         for i in 0..self.bodies.len() {
             for j in i + 1..self.bodies.len() {
-                self.fcache.push(
-                    ([i, j],
+                self.fcache.push((
+                    [i, j],
                     partial_law_gravity(&self.bodies[i].mass, &self.bodies[j].mass)
-                        + partial_coulomb(&self.bodies[i].charge, &self.bodies[j].charge)),
-                );
+                        + partial_coulomb(&self.bodies[i].charge, &self.bodies[j].charge),
+                ));
             }
         }
     }
 
     //Calculates the total forces on each body: Newton Grav. Law and Coulomb Law
     fn calc_forces(&mut self) {
-        
         //set all f's to 0.0
         for b in &mut self.bodies {
             b.f.set_values((0.0, 0.0, 0.0));
@@ -55,7 +52,7 @@ impl Engine {
         //calculate forces for each bodies combinations
         for (i, pf) in &self.fcache {
             let mut f = Vector::from_subtraction(&self.bodies[i[0]].pos, &self.bodies[i[1]].pos);
-            f.times_costant(*pf/f.module().powf(3.0));
+            f.times_costant(*pf / f.module().powf(3.0));
 
             self.bodies[i[0]].f.add(&f);
             self.bodies[i[1]].f.subtract(&f);
@@ -107,7 +104,7 @@ impl Engine {
     pub fn start(&mut self, end_in_s: f64, show_every_n_dt: f64) {
         let mut i = 0.0;
         let mut j = 0.0;
-        
+
         self.calc_fcache();
 
         self.render_to_terminal(i);
