@@ -29,6 +29,7 @@ impl Engine {
 
     //Calculates the total forces on each body: Newton Grav. Law and Coulomb Law
     fn calc_forces(&mut self) {
+        
         //set all f's to 0.0
         for b in &mut self.bodies {
             b.f.set_values((0.0, 0.0, 0.0));
@@ -77,7 +78,8 @@ impl Engine {
         }
     }
 
-    fn render_to_terminal(&self) {
+    fn render_to_terminal(&self, i: f64) {
+        println!("Time: {:.2}", (i*self.dt).round());
         for i in 0..self.bodies.len() {
             println!(
                 "Body {} position: ( {}, {}, {} )",
@@ -96,16 +98,18 @@ impl Engine {
     pub fn start(&mut self, end_in_s: f64, show_every_n_dt: f64) {
         let mut i = 0.0;
         let mut j = 0.0;
-        self.render_to_terminal();
+        
+        self.render_to_terminal(i);
         while i * self.dt < end_in_s {
             self.calc_forces();
             self.update_positions();
             self.new_speeds();
+            
             i += 1.0;
             j += 1.0;
 
-            if j == show_every_n_dt {
-                self.render_to_terminal();
+            if j >= show_every_n_dt {
+                self.render_to_terminal(i);
                 j = 0.0;
             }
         }
