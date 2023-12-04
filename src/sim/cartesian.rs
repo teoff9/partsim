@@ -50,4 +50,10 @@ impl Vector {
     pub fn module(&self) -> f64 {
         (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).powf(0.5)
     }
+
+    pub fn set_values(&mut self, new: (f64, f64, f64)) {
+        self.x = new.0;
+        self.y = new.1;
+        self.z = new.2;
+    }
 }

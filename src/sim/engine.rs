@@ -17,7 +17,7 @@ impl Engine {
     //dt is the refresh time interval for the simulation
     pub fn new(dt: f64) -> Self {
         Self {
-            bodies: Vec::new(),
+            bodies: vec![],
             dt,
         }
     }
@@ -30,8 +30,8 @@ impl Engine {
     //Calculates the total forces on each body: Newton Grav. Law and Coulomb Law
     fn calc_forces(&mut self) {
         //set all f's to 0.0
-        for i in 0..self.bodies.len() {
-            self.bodies[i].f = Vector::new((0.0, 0.0, 0.0));
+        for b in &mut self.bodies {
+            b.f.set_values((0.0, 0.0, 0.0));
         }
 
         //calculate forces for each bodies combinations

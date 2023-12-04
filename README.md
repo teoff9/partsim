@@ -2,5 +2,9 @@
 
 ## \#TODO
 
-- ottimizza il codice: calc_force etc etc
-- check coulomb 
+- ottimizza il codice:  
+- crea cache
+
+## RESULTS
+
+### Terra: 9.167s
