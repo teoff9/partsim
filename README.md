@@ -5,6 +5,7 @@
 - ottimizza il codice:  
 - crea cache
 - rimuovi R
+- documenta il codice
 
 ## RESULTS
 

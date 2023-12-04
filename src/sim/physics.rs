@@ -30,3 +30,11 @@ pub fn coulomb_law(p1: &Point, p2: &Point) -> Vector {
         f * (p1.pos.z - p2.pos.z),
     ))
 }
+
+pub fn partial_law_gravity(mass1: &f64, mass2: &f64) -> f64 {
+    -G * mass1 * mass2
+}
+
+pub fn partial_coulomb(charge1: &f64, charge2: &f64) -> f64 {
+    charge1 * charge2 / (4.0 * PI * epsilon0)
+}

@@ -47,6 +47,18 @@ impl Vector {
         self.z -= vett.z;
     }
 
+    pub fn times_costant(&mut self, cost: f64) {
+        self.x *= cost;
+        self.y *= cost;
+        self.z *= cost;
+    }
+
+    pub fn divide_by_costant(&mut self, cost: f64) {
+        self.x /= cost;
+        self.y /= cost;
+        self.z /= cost;
+    }
+
     pub fn module(&self) -> f64 {
         (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).powf(0.5)
     }

@@ -4,12 +4,16 @@
 //imports
 use crate::sim::bodies::Point;
 use crate::sim::cartesian::Vector;
-use crate::sim::physics::{coulomb_law, universal_law_gravity};
+use crate::sim::physics::{
+    coulomb_law, partial_coulomb, partial_law_gravity, universal_law_gravity,
+};
+use std::collections::HashMap;
 
 //ENGINE
 pub struct Engine {
     bodies: Vec<Point>,
     dt: f64,
+    fcache: HashMap<[usize; 2], f64>,
 }
 
 impl Engine {
@@ -19,12 +23,26 @@ impl Engine {
         Self {
             bodies: vec![],
             dt,
+            fcache: HashMap::new(),
         }
     }
 
     //add a material point (Point) to self.bodies
     pub fn add_point(&mut self, pos: (f64, f64, f64), v: (f64, f64, f64), mass: f64, charge: f64) {
         self.bodies.push(Point::new(pos, v, mass, charge));
+    }
+
+    //function to generate fcache
+    fn calc_fcache(&mut self) {
+        for i in 0..self.bodies.len() {
+            for j in i + 1..self.bodies.len() {
+                self.fcache.insert(
+                    [i, j],
+                    partial_law_gravity(&self.bodies[i].mass, &self.bodies[j].mass)
+                        + partial_coulomb(&self.bodies[i].charge, &self.bodies[j].charge),
+                );
+            }
+        }
     }
 
     //Calculates the total forces on each body: Newton Grav. Law and Coulomb Law
@@ -36,20 +54,12 @@ impl Engine {
         }
 
         //calculate forces for each bodies combinations
-        for i in 0..self.bodies.len() {
-            for j in i + 1..self.bodies.len() {
-                //calculate gravitational forces
-                let f = universal_law_gravity(&self.bodies[i], &self.bodies[j]);
-                self.bodies[i].f.add(&f);
-                self.bodies[j].f.subtract(&f);
+        for (i, pf) in &self.fcache {
+            let mut f = Vector::from_subtraction(&self.bodies[i[0]].pos, &self.bodies[i[1]].pos);
+            f.times_costant(*pf/f.module().powf(3.0));
 
-                //if they both have a charge, add coulomb force
-                if self.bodies[i].charge != 0.0 && self.bodies[j].charge != 0.0 {
-                    let f = coulomb_law(&self.bodies[i], &self.bodies[j]);
-                    self.bodies[i].f.add(&f);
-                    self.bodies[j].f.subtract(&f);
-                }
-            }
+            self.bodies[i[0]].f.add(&f);
+            self.bodies[i[1]].f.subtract(&f);
         }
     }
 
@@ -79,7 +89,7 @@ impl Engine {
     }
 
     fn render_to_terminal(&self, i: f64) {
-        println!("Time: {:.2}", (i*self.dt).round());
+        println!("Time: {:.2}", (i * self.dt));
         for i in 0..self.bodies.len() {
             println!(
                 "Body {} position: ( {}, {}, {} )",
@@ -99,12 +109,15 @@ impl Engine {
         let mut i = 0.0;
         let mut j = 0.0;
         
+        self.calc_fcache();
+
         self.render_to_terminal(i);
+
         while i * self.dt < end_in_s {
             self.calc_forces();
             self.update_positions();
             self.new_speeds();
-            
+
             i += 1.0;
             j += 1.0;
 
