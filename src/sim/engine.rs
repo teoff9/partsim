@@ -91,7 +91,8 @@ impl Engine {
                 i, b.pos.x, b.pos.y, b.pos.z
             );
         }
-        println!("R = {}", self.bodies[1].distance_from(&self.bodies[0]));
+        println!("r = {}", self.bodies[0].distance_from(&self.bodies[1]));
+        println!("R = {}", self.bodies[1].distance_from(&self.bodies[2]));
         println!();
     }
 
