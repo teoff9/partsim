@@ -2,9 +2,9 @@
 //This file will contain the physics engine
 
 //imports
-use crate::sim::bodies::Point;
-use crate::sim::cartesian::Vector;
-use crate::sim::physics::{partial_coulomb, partial_law_gravity};
+use super::bodies::Point;
+use super::cartesian::Vector;
+use super::physics::{partial_coulomb, partial_law_gravity};
 
 //ENGINE
 pub struct Engine {

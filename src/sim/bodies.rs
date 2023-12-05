@@ -3,7 +3,7 @@
 //such as Point (material point), Sphere ...
 
 //imports
-use crate::sim::cartesian::Vector;
+use super::cartesian::Vector;
 
 
 //MATERIAL POINT

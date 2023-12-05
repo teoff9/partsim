@@ -12,3 +12,6 @@ pub mod engine;
 
 //Module containing physics equations used in the simulator
 pub mod physics;
+
+//Module containing graphics methods
+pub mod graphics;

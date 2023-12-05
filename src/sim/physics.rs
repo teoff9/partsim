@@ -2,8 +2,8 @@
 //This file will contain physics equations
 
 //imports
-use crate::sim::bodies::Point;
-use crate::sim::cartesian::Vector;
+use super::bodies::Point;
+use super::cartesian::Vector;
 use physical_constants::{
     NEWTONIAN_CONSTANT_OF_GRAVITATION as G, VACUUM_ELECTRIC_PERMITTIVITY as epsilon0,
 };
