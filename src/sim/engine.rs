@@ -60,43 +60,36 @@ impl Engine {
     }
 
     fn new_speeds(&mut self) {
-        for i in 0..self.bodies.len() {
-            let new_v = Vector::new((
-                self.bodies[i].f.x / self.bodies[i].mass * self.dt,
-                self.bodies[i].f.y / self.bodies[i].mass * self.dt,
-                self.bodies[i].f.z / self.bodies[i].mass * self.dt,
+        for b in &mut self.bodies {
+            b.v.add_tuple((
+                b.f.x / b.mass * self.dt,
+                b.f.y / b.mass * self.dt,
+                b.f.z / b.mass * self.dt,
             ));
-            self.bodies[i].v.add(&new_v);
         }
     }
 
     fn update_positions(&mut self) {
-        for i in 0..self.bodies.len() {
-            let s = Vector::new((
-                self.bodies[i].v.x * self.dt
-                    + 0.5 * self.dt.powf(2.0) * self.bodies[i].f.x / self.bodies[i].mass,
-                self.bodies[i].v.y * self.dt
-                    + 0.5 * self.dt.powf(2.0) * self.bodies[i].f.y / self.bodies[i].mass,
-                self.bodies[i].v.z * self.dt
-                    + 0.5 * self.dt.powf(2.0) * self.bodies[i].f.z / self.bodies[i].mass,
+        for b in &mut self.bodies {
+            b.pos.add_tuple((
+                b.v.x * self.dt + 0.5 * self.dt.powf(2.0) * b.f.x / b.mass,
+                b.v.y * self.dt + 0.5 * self.dt.powf(2.0) * b.f.y / b.mass,
+                b.v.z * self.dt + 0.5 * self.dt.powf(2.0) * b.f.z / b.mass,
             ));
-            self.bodies[i].pos.add(&s);
         }
     }
 
     fn render_to_terminal(&self, i: f64) {
         println!("Time: {:.2}", (i * self.dt));
-        for i in 0..self.bodies.len() {
+        for (i, b) in self.bodies.iter().enumerate() {
             println!(
                 "Body {} position: ( {}, {}, {} )",
-                i, self.bodies[i].pos.x, self.bodies[i].pos.y, self.bodies[i].pos.z
+                i, b.pos.x, b.pos.y, b.pos.z
             );
         }
         println!(
             "R = {}",
-            ((self.bodies[0].pos.x - self.bodies[1].pos.x).powf(2.0)
-                + (self.bodies[0].pos.y - self.bodies[1].pos.y).powf(2.0))
-            .powf(0.5)
+            self.bodies[1].distance_from(&self.bodies[0])
         );
         println!();
     }

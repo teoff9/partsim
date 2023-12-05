@@ -47,6 +47,18 @@ impl Vector {
         self.z -= vett.z;
     }
 
+    pub fn add_tuple(&mut self, vett: (f64, f64, f64)) {
+        self.x += vett.0;
+        self.y += vett.1;
+        self.z += vett.2;
+    }
+
+    pub fn subtract_tuple(&mut self, vett: (f64, f64, f64)) {
+        self.x -= vett.0;
+        self.y -= vett.1;
+        self.z -= vett.2;
+    }
+
     pub fn times_costant(&mut self, cost: f64) {
         self.x *= cost;
         self.y *= cost;
