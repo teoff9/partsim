@@ -59,6 +59,7 @@ impl Engine {
         }
     }
 
+    //updates the speeds of each body
     fn new_speeds(&mut self) {
         for b in &mut self.bodies {
             b.v.add_tuple((
@@ -69,6 +70,8 @@ impl Engine {
         }
     }
 
+    //updates positions of each body approximating movement for dt
+    //as an accellerated motion along a line
     fn update_positions(&mut self) {
         for b in &mut self.bodies {
             b.pos.add_tuple((
@@ -79,6 +82,7 @@ impl Engine {
         }
     }
 
+    //show bodies positions in the terminal
     fn render_to_terminal(&self, i: f64) {
         println!("Time: {:.2}", (i * self.dt));
         for (i, b) in self.bodies.iter().enumerate() {
@@ -87,14 +91,12 @@ impl Engine {
                 i, b.pos.x, b.pos.y, b.pos.z
             );
         }
-        println!(
-            "R = {}",
-            self.bodies[1].distance_from(&self.bodies[0])
-        );
+        println!("R = {}", self.bodies[1].distance_from(&self.bodies[0]));
         println!();
     }
 
-    pub fn start(&mut self, end_in_s: f64, show_every_n_dt: f64) {
+    //start simulation for t = final_t seconds
+    pub fn start_for(&mut self, final_t: f64, show_every_n_dt: f64) {
         let mut i = 0.0;
         let mut j = 0.0;
 
@@ -102,7 +104,7 @@ impl Engine {
 
         self.render_to_terminal(i);
 
-        while i * self.dt < end_in_s {
+        while i * self.dt < final_t {
             self.calc_forces();
             self.update_positions();
             self.new_speeds();
