@@ -91,8 +91,8 @@ impl Engine {
                 i, b.pos.x, b.pos.y, b.pos.z
             );
         }
-        println!("r = {}", self.bodies[0].distance_from(&self.bodies[1]));
-        println!("R = {}", self.bodies[1].distance_from(&self.bodies[2]));
+        println!("r % = {} %", (self.bodies[0].distance_from(&self.bodies[1]) - 42164.0 * 10.0f64.powf(3.0))* 100.0 / 42164.0 * 10.0f64.powf(3.0));
+        //println!("R % = {} %", (self.bodies[1].distance_from(&self.bodies[2]) - 150.0 * 10.0f64.powf(9.0))* 100.0 / 150.0 * 10.0f64.powf(9.0));
         println!();
     }
 
